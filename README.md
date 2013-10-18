@@ -15,8 +15,8 @@
  * There is a trivial shell script 'twitter_proc.sh' that uses a regex to display only the text elements of the generated .json
 
 ### SOURCES
- * Tweet filtering
-	[1]: https://dev.twitter.com/docs/api/1.1/post/statuses/filter
-	[2]: http://mike.teczno.com/notes/streaming-data-from-twitter.html
- * Sentiment analysis
-	[1]: http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/
+ #### Tweet filtering
+	*[1]: https://dev.twitter.com/docs/api/1.1/post/statuses/filter
+	*[2]: http://mike.teczno.com/notes/streaming-data-from-twitter.html
+ #### Sentiment analysis
+	*[1]: http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/
