@@ -85,8 +85,7 @@ def rsiFunc(prices, n=14):
 
 def moving_average(values, window):
 	weights = np.repeat(1.0, window)/window
-	smas = np.convolve(values, weights, 'valid')
-	return smas
+	return np.convolve(values, weights, 'valid')
 
 def exp_moving_average(values, window):
 	weights = np.exp(np.linspace(-1., 0., window))
