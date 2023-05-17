@@ -11,22 +11,19 @@ import classify
 
 def extract_features(document):
 	document_words = set(document)
-	features = {}
-	for word in word_features:
-		features['contains(%s)' % word] = (word in document_words)
-	return features
+	return {
+		f'contains({word})': (word in document_words) for word in word_features
+	}
 
 ########## GATHER TWEET DATA #########################################
-json_data=open('../json/twituni.json')
-tweets = []
+with open('../json/twituni.json') as json_data:
+	tweets = []
 
-for line in json_data:
-	try: 
-		tweets.append(json.loads(line))
-	except:
-		pass
-
-json_data.close()
+	for line in json_data:
+		try: 
+			tweets.append(json.loads(line))
+		except:
+			pass
 
 ########## PREPROCESS TWEET DATA #####################################
 comments = []
@@ -49,26 +46,21 @@ for tweet in tweets:
 	except:
 		pass
 
-########## GATHER CLASSIFIER DATA ####################################
-posfile = open('../sentiment_data/rt-polaritydata/rt-polarity.pos')
-pos_tweets = []
-for line in posfile:
-	try:
-		pos_tweets.append((line, 'positive'))
-	except ValueError:
-		pass
+with open('../sentiment_data/rt-polaritydata/rt-polarity.pos') as posfile:
+	pos_tweets = []
+	for line in posfile:
+		try:
+			pos_tweets.append((line, 'positive'))
+		except ValueError:
+			pass
 
-posfile.close()
-
-negfile = open('../sentiment_data/rt-polaritydata/rt-polarity.neg')
-neg_tweets = []
-for line in negfile:	
-	try:
-		neg_tweets.append((line, 'negative'))
-	except ValueError:
-		pass
-
-negfile.close()
+with open('../sentiment_data/rt-polaritydata/rt-polarity.neg') as negfile:
+	neg_tweets = []
+	for line in negfile:	
+		try:
+			neg_tweets.append((line, 'negative'))
+		except ValueError:
+			pass
 
 train_tweets = []
 for (words, sentiment) in pos_tweets + neg_tweets:
@@ -85,7 +77,9 @@ classifier = nltk.NaiveBayesClassifier.train(training_set)
 mymap = pygmaps.maps(35.689, 139.706, 16)
 
 for comment in comments:
-	print("comment: " + comment + ", class: " + classifier.classify(extract_features(comment.split())))
+	print(
+		f"comment: {comment}, class: {classifier.classify(extract_features(comment.split()))}"
+	)
 	#print("comment: " + comment)
 
 '''
